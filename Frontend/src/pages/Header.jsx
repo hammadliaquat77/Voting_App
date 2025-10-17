@@ -44,10 +44,11 @@ const Header = () => {
             Register
           </button>
           </Link>
-          <Link to={"/votingpage"}></Link>
+          <Link to={"/votingpage"}>
           <button className="bg-blue-600 hover:bg-blue-700 px-8 py-2 rounded-xl text-base sm:text-lg cursor-pointer">
             Read More
           </button>
+          </Link>
         </div>
       </div>
     </div>
