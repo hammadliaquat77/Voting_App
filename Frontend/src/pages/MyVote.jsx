@@ -1,60 +1,141 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// import React, { useState, useEffect } from "react";
+// import Navbar from "../components/Navbar";
+// import axios from "axios";
 
-const MyVote = ({ votedCandidate }) => {
+// const MyVote = ({ votedCandidate }) => {
+
+//   const token = localStorage.getItem("token");
+//   const [myVote, setMyVote] = useState([]);
+
+//   useEffect(() => {
+//     userVote();
+//   }, []);
+
+//   const userVote = async (id) => {
+//     try {
+//       const response = await axios.get(
+//         `http://localhost:8000/api/candidate/myvote`,
+//         { headers: { Authorization: `Bearer ${token}` } }
+//       );
+
+//       setMyVote(response.data.candidate);
+//       // alert(response.data.message);
+//     } catch (error) {
+//       alert(error.response.data.message);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-[#001124] text-white px-6 py-10 flex flex-col items-center">
+
+//       {/* Navbar */}
+//       <Navbar />
+
+//       {/* Title */}
+//       <h1 className="text-3xl md:text-4xl font-bold text-blue-400 mb-8">
+//         🗳️ Your Vote Summary
+//       </h1>
+
+//       {myVote && (
+//         <div
+//           key={myVote._id}
+//           className="bg-[#011a3a] w-[220px] sm:w-[400px] md:w-[500px] p-6 rounded-2xl shadow-lg hover:shadow-blue-800 transition duration-300 hover:-translate-y-1 flex flex-col items-center text-center"
+//         >
+//           <img
+//             src={myVote.image}
+//             alt={myVote.name}
+//             className="w-32 h-32 rounded-full border-4 border-blue-500 mb-4"
+//           />
+//           <h2 className="text-xl font-semibold">{myVote.name}</h2>
+//           <p className="text-blue-300 mb-3">{myVote.party}</p>
+
+//           <div className="bg-blue-950 py-2 px-4 rounded-lg mb-4">
+//             <p className="text-sm text-blue-300">Total Votes</p>
+//             <p className="font-bold text-lg text-blue-400">{myVote.voteCount}</p>
+//           </div>
+//         </div>
+//       ) : (
+//         <p className="text-lg text-blue-400">You have not voted yet.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default MyVote;
+
+
+import React, { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import axios from "axios";
+
+const MyVote = () => {
+  const token = localStorage.getItem("token");
+  const [myVote, setMyVote] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMyVote();
+  }, []);
+
+  const fetchMyVote = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/candidate/myvote",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMyVote(response.data.candidate || null);
+    } catch (error) {
+      console.error(error);
+      setMyVote(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#001124] text-white px-6 py-10 flex flex-col items-center">
-     
-       <nav className="flex flex-wrap justify-center md:justify-end items-center w-full gap-3 sm:gap-6 md:gap-8 mb-10 text-base sm:text-lg font-medium">
-        <button className="border-b-2 border-blue-600 pb-1 hover:text-blue-400 transition">
-          Personal Info
-        </button>
+    <div className="min-h-screen bg-gradient-to-b from-[#000c1f] via-[#001736] to-[#000a18] text-white px-6 py-10 flex flex-col items-center">
+      {/* Navbar */}
+      <Navbar />
 
-        <Link to={"/votingpage"}>
-        <button className="hover:text-blue-400 transition">Elections</button>
-        </Link>
-
-        <button className="hover:text-blue-400 transition">Contact</button>
-        <Link to={"/vote"}>
-        <button className="bg-blue-600 hover:bg-blue-700 transition px-5 py-1 rounded-lg text-white text-sm sm:text-base">
-          Vote
-        </button>
-        </Link>
-      </nav>
-     
       {/* Title */}
-      <h1 className="text-3xl md:text-4xl font-bold text-blue-400 mb-8">
-        🗳️ Your Vote Summary
+      <h1 className="text-3xl md:text-4xl font-bold text-blue-400 mb-10 text-center">
+         Your Vote Summary
       </h1>
 
-      {votedCandidate ? (
-        <div className="bg-[#011a3a] rounded-2xl shadow-lg border border-blue-700 p-8 w-[90%] max-w-md flex flex-col items-center text-center">
+      {/* Loading Spinner */}
+      {loading ? (
+        <div className="text-blue-400 animate-pulse text-lg">Loading...</div>
+      ) : myVote ? (
+        <div
+          key={myVote._id}
+          className="bg-white/10 backdrop-blur-lg border border-white/20 
+                     w-[90%] sm:w-[400px] md:w-[500px] p-8 rounded-3xl 
+                     shadow-2xl hover:shadow-blue-800 transition duration-300 
+                     hover:-translate-y-1 flex flex-col items-center text-center"
+        >
           <img
-            src={votedCandidate.image}
-            alt={votedCandidate.name}
-            className="w-32 h-32 rounded-full border-4 border-blue-500 mb-4"
+            src={myVote.image}
+            alt={myVote.name}
+            className="w-32 h-32 rounded-full border-4 border-blue-500 mb-5 shadow-lg object-cover"
           />
-          <h2 className="text-2xl font-semibold mb-2">{votedCandidate.name}</h2>
-          <p className="text-blue-300 mb-4">{votedCandidate.party}</p>
-          <div className="bg-blue-950 py-2 px-6 rounded-lg mb-4">
-            <p className="text-sm text-blue-300">Total Votes (Live)</p>
-            <p className="font-bold text-lg text-blue-400">
-              {votedCandidate.votes}
+          <h2 className="text-2xl font-bold text-blue-300">{myVote.name}</h2>
+          <p className="text-blue-400 text-lg mb-5">{myVote.party}</p>
+
+          <div className="bg-blue-950/60 py-3 px-6 rounded-xl mb-4 w-fit">
+            <p className="text-sm text-blue-300">Total Votes</p>
+            <p className="font-bold text-2xl text-blue-400">
+              {myVote.voteCount}
             </p>
           </div>
-          <p className="text-green-400 font-semibold">
-            ✅ You have successfully voted for {votedCandidate.name}
+
+          <p className="text-green-400 font-semibold text-sm bg-green-900/30 px-4 py-1 rounded-full">
+            You successfully voted for {myVote.name}
           </p>
         </div>
       ) : (
-        <div className="text-center mt-20">
-          <h2 className="text-xl text-gray-300">
-            ⚠️ You haven’t voted yet.
-          </h2>
-          <p className="text-blue-400 mt-2">
-            Go back to the Voting Page to cast your vote.
-          </p>
-        </div>
+        <p className="text-lg text-blue-400 mt-8">
+          You haven’t voted yet. Go to the <span className="text-blue-500 font-semibold">Elections</span> page to vote.
+        </p>
       )}
     </div>
   );

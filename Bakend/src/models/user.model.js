@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     phone:{
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: false
     },
+     votedFor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Candidate",
+        default: null
+    }
 
 }, {timestamps: true});
 

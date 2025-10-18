@@ -1,5 +1,5 @@
 import express from "express";
-import { createCandidate, deleteCandidate, updateCandidate, getAllCandidate, userVote, voteCount  } from "../controller/candidate.controller.js";
+import { createCandidate, deleteCandidate, updateCandidate, getAllCandidate, userVote, voteCount, myVote  } from "../controller/candidate.controller.js";
 import authMiddleware from "../middleware/auth.middleware.js";
 import checkAdmin  from "../middleware/adminCheck.middleware.js";
 
@@ -10,6 +10,7 @@ router.post("/create", authMiddleware, checkAdmin,  createCandidate);
 router.put("/update/:id", authMiddleware, checkAdmin, updateCandidate);
 router.delete("/delete/:id", authMiddleware, checkAdmin, deleteCandidate);
 router.post("/vote/:id", authMiddleware,  userVote);
+router.get("/myvote", authMiddleware, myVote);
 router.get("/vote/count", voteCount);
 
 

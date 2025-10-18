@@ -37,7 +37,7 @@ const Signup = async (req, res) => {
         });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -50,7 +50,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         const isMatch = await user.comparePassword(password, user.password);
@@ -68,11 +68,11 @@ const login = async (req, res) => {
                 message: "User logged in successfully",
             });
         } else {
-            return res.status(401).json({ error: "Invalid email or password" });
+            return res.status(401).json({ message: "Invalid email or password" });
         }
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -83,7 +83,7 @@ const logout = async (req, res) => {
         res.status(200).json({ message: "User logged out successfully" });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -94,7 +94,7 @@ const Profile = async (req, res) => {
         res.status(200).json({ user });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -107,13 +107,13 @@ const updatePassword = async (req, res) => {
     const user = await User.findById(req.user);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const isMatch = await user.comparePassword(oldPassword);
 
     if (!isMatch) {
-      return res.status(401).json({ error: "Invalid old password" });
+      return res.status(401).json({ message: "Invalid old password" });
     }
 
     // Hashing handled automatically in pre-save hook
@@ -123,7 +123,7 @@ const updatePassword = async (req, res) => {
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.error("Error updating password:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

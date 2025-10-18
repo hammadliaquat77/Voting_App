@@ -44,7 +44,7 @@ const updateCandidate = async (req, res) => {
         const candidate = await Candidate.findByIdAndUpdate(id, req.body, { new: true });
         res.status(200).json({ candidate, message: "Candidate updated successfully" });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -55,7 +55,7 @@ const getAllCandidate = async (req, res) => {
         res.status(200).json({ candidate });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -65,36 +65,60 @@ const userVote = async (req, res) => {
     try {
         const candidate = await Candidate.findById(req.params.id);
         if (!candidate) {
-            return res.status(404).json({ error: "Candidate not found" });
+            return res.status(404).json({ message: "Candidate not found" });
         }
 
         const user = await User.findById(req.user._id);
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         if (user.userVoted) {
-            return res.status(400).json({ error: "User has already voted" });
+            return res.status(400).json({ message: "User has already voted" });
         }
             
         if (user.role == "admin") {
-            return res.status(400).json({ error: "Admins cannot vote" });
+            return res.status(400).json({ message: "Admins cannot vote" });
         }
 
         candidate.vote.push({ user: user._id, });
         candidate.voteCount ++;
         await candidate.save();
 
+        // user.userVoted = true;
+        // await user.save();
+
+
         user.userVoted = true;
+        user.votedFor = candidate._id;
         await user.save();
         
         res.status(200).json({ message: "User voted successfully" });
 
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
+
+
+const myVote = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate("votedFor", "name age party voteCount image");
+
+    if (!user || !user.votedFor) {
+      return res.status(404).json({ message: "User ne abhi tak vote nahi diya." });
+    }
+
+    res.status(200).json({
+      message: "Voted Candidate:",
+      candidate: user.votedFor
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 
 
@@ -112,7 +136,7 @@ const voteCount = async (req, res)=> {
         return res.status(200).json({ result });
 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }   
 }
 
@@ -123,5 +147,6 @@ export {
     updateCandidate,
     getAllCandidate,
     userVote,
-    voteCount
+    voteCount,
+    myVote
 }
