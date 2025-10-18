@@ -11,10 +11,10 @@ const Header = () => {
           <h1 className="text-2xl font-bold text-blue-600 font-serif">VoteApp</h1>
           <ul className="flex gap-4 sm:gap-6 font-serif text-sm sm:text-base">
             <li className="px-3 py-1 cursor-pointer hover:text-blue-500 hidden md:block">About</li>
-            <li className="px-3 py-1 cursor-pointer hover:text-blue-500 hidden md:block">Contact</li>
-            <li className="bg-blue-700 hover:bg-blue-800 px-4 py-1 cursor-pointer rounded-md">
+            {/* <li className="px-3 py-1 cursor-pointer hover:text-blue-500 hidden md:block">Contact</li> */}
+            <Link to="/login" className="bg-blue-700 hover:bg-blue-800 px-4 py-1 cursor-pointer rounded-md">
               Login
-            </li>
+            </Link>
           </ul>
         </div>
       </nav>
