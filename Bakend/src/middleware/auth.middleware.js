@@ -41,7 +41,9 @@ const authMiddleware = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // req.user = user._id;
     req.user = user._id; 
+
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid or expired token" });

@@ -26,6 +26,8 @@ const Login = () => {
         // console.log("data==> ", response.data);
 
         localStorage.setItem("token", response.data.token);
+        // localStorage.setItem("role", response.data.user.role);
+
         alert("Login successful!");    
         navigate("/votingpage")
 

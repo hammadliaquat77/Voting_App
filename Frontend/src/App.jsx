@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import PersionalInfo from './pages/PersionalInfo'
 import VotingPage from './pages/VotingPage'
 import MyVote from './pages/MyVote'
+import AdminDashboard from './pages/Dashboard'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
       <Route path="/personalinfo" element={<PersionalInfo/>} />
       <Route path="/votingpage" element={<VotingPage/>} />
       <Route path="/vote" element={<MyVote/>} />
+      <Route path="/dashboard" element={<AdminDashboard/>} />
     </Routes>
     </>
   )

@@ -1,9 +1,12 @@
 import express from "express";
-import { login, logout, Signup, Profile, updatePassword } from "../controller/user.controller.js";
+import { login, logout, Signup, Profile, updatePassword, getAllUsers } from "../controller/user.controller.js";
 import authMiddleWare from "../middleware/auth.middleware.js";
+import checkAdmin  from "../middleware/adminCheck.middleware.js";
+
 
 const router = express.Router();
 
+router.get("/", authMiddleWare, checkAdmin, getAllUsers);
 router.post("/signup", Signup);
 router.post("/login", login);
 router.post("/logout", authMiddleWare, logout);
