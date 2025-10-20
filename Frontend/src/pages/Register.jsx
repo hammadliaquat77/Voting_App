@@ -32,7 +32,7 @@ const Register = () => {
        console.log("Response from backend:", response.data);
        
          localStorage.setItem("token", response.data.token);
-        //  localStorage.setItem("role", response.data.user.role);
+         localStorage.setItem("role", response.data.user.role);
          alert("Registration successful!");
 
          navigate("/votingpage");

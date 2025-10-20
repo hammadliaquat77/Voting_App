@@ -2,7 +2,100 @@ import {User} from "../models/user.model.js";
 import generateToken from "../utils/generatedToken.js";
 
 
+// // without role
+// const Signup = async (req, res) => {
+//     try {
+//         const { name, age, phone, address, email, password } = req.body;
 
+//         const existingUser = await User.findOne({ email });
+
+//         if (existingUser) {
+//             return res.status(400).json({ error: "User already exists" });
+//         }
+
+//         const newUser = await User.create({
+//             name,
+//             age,
+//             phone,
+//             address,
+//             email,
+//             password
+//         });
+
+//         newUser.save();
+
+//         const paylod = {
+//             _id: newUser._id,
+//         };
+
+//         const token = await generateToken(newUser);
+
+//         res.status(201).json({
+//             newUser,
+//             token,
+//             message: "User created successfully",
+//         });
+
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// }
+
+
+// const login = async (req, res) => {
+
+//     try {
+//         const { email, password } = req.body;
+
+//         const user = await User.findOne({ email });
+
+//         if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//         }
+
+//         const isMatch = await user.comparePassword(password, user.password);
+
+//         const payload = {
+//             _id: user._id,
+//         };
+
+//         const token = await generateToken(user);
+
+//         if (isMatch) {
+//             return res.status(200).json({
+//                 user,
+//                 token,
+//                 message: "User logged in successfully",
+//             });
+//         } else {
+//             return res.status(401).json({ message: "Invalid email or password" });
+//         }
+
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// }
+
+
+// const logout = async (req, res) => {
+//     try {
+//         const token = await req.header("authorization").replace("Bearer ", "");
+//         res.status(200).json({ message: "User logged out successfully" });
+
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// }
+
+
+
+
+
+
+
+
+
+// with role
 const Signup = async (req, res) => {
     try {
         const { name, age, phone, address, email, password } = req.body;
@@ -19,7 +112,8 @@ const Signup = async (req, res) => {
             phone,
             address,
             email,
-            password
+            password,
+            role: "user"
         });
 
         newUser.save();
@@ -28,7 +122,7 @@ const Signup = async (req, res) => {
             _id: newUser._id,
         };
 
-        const token = await generateToken(newUser);
+        const token = await generateToken(newUser, newUser.role);
 
         res.status(201).json({
             newUser,
@@ -59,7 +153,7 @@ const login = async (req, res) => {
             _id: user._id,
         };
 
-        const token = await generateToken(user);
+        const token = await generateToken(user, user.role);
 
         if (isMatch) {
             return res.status(200).json({
@@ -86,6 +180,10 @@ const logout = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+
+
+
 
 const Profile = async (req, res) => {
     try {

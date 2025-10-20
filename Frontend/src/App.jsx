@@ -8,12 +8,19 @@ import VotingPage from './pages/VotingPage'
 import MyVote from './pages/MyVote'
 import AdminDashboard from './pages/Dashboard'
 
+import { Navigate } from "react-router-dom";
+
+
+
 function App() {
+
+
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
 
   return (
     <>
-    {/* <h1 className='text-6xl'>Voting</h1> */}
-
     <Routes>
       <Route path="/" element={<Header/>} />
       <Route path="/register" element={<Register/>} />
@@ -21,7 +28,17 @@ function App() {
       <Route path="/personalinfo" element={<PersionalInfo/>} />
       <Route path="/votingpage" element={<VotingPage/>} />
       <Route path="/vote" element={<MyVote/>} />
-      <Route path="/dashboard" element={<AdminDashboard/>} />
+      {/* <Route path="/dashboard"  element={role === "admin" ? (<AdminDashboard/>) : <Navigate to="/votingpage"/>   } /> */}
+      <Route
+          path="/dashboard"
+          element={
+            role === "admin" ? (
+              <AdminDashboard />
+            ) : (
+              <Navigate to="/votingpage" replace />
+            )
+          }
+        />
     </Routes>
     </>
   )
