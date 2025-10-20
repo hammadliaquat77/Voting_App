@@ -1,5 +1,7 @@
 import React from "react";
-import letsVote from "../../public/letsvote.png";
+// import letsVote from "../../public/letsvote.png";
+import letsVote from "../../public/vote.png";
+
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -24,7 +26,7 @@ const Header = () => {
         <img
           src={letsVote}
           alt="Let's Vote"
-          className="h-[200px] sm:h-[300px] md:h-[400px] object-contain"
+          className="h-[200px] sm:h-[300px] md:h-[300px] object-contain rounded-full"
         />
       </div>
 
