@@ -3,7 +3,7 @@ import letsVote from "../../public/letsvote.png";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 
 
 const Register = () => {
@@ -33,12 +33,12 @@ const Register = () => {
        
          localStorage.setItem("token", response.data.token);
          localStorage.setItem("role", response.data.newUser.role);
-         alert("Registration successful!");
+         toast.success("Registration successful!");
 
          navigate("/votingpage");
 
     } catch (error) {
-       alert(error.response.data.message || "Registration failed.");
+        toast.error(error.response.data.message || "Registration failed.");
     }
    }
 

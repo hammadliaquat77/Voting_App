@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -18,12 +19,12 @@ const Navbar = () => {
         { headers: { authorization: `Bearer ${token}` } }
       );
 
-      alert(response.data.message);
+      toast.warn(response.data.message);
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Logout failed.");
+      toast.error(error.response?.data?.message || "Logout failed.");
     }
   };
 

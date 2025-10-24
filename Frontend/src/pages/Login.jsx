@@ -3,6 +3,7 @@ import letsVote from "../../public/letsvote.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 
@@ -28,11 +29,12 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.user.role);
 
-        alert("Login successful!");    
+        // alert("Login successful!");    
+        toast.success("Login successful!");    
         navigate("/votingpage")
 
     } catch (error) {
-        alert(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message);
     }
   }
 

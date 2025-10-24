@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
   const token = localStorage.getItem("token");
@@ -63,33 +64,33 @@ const AdminDashboard = () => {
 
 
   const addCandidate = async () => {
-  if (!newCandidate.name || !newCandidate.age || !newCandidate.party || !newCandidate.image)
-    return alert("Please fill all fields!");
+    if (!newCandidate.name || !newCandidate.age || !newCandidate.party || !newCandidate.image)
+      return toast.info("Please fill all fields!");
 
-  const formData = new FormData();
-  formData.append("name", newCandidate.name);
-  formData.append("age", newCandidate.age);
-  formData.append("party", newCandidate.party);
-  formData.append("image", newCandidate.image);
+    const formData = new FormData();
+    formData.append("name", newCandidate.name);
+    formData.append("age", newCandidate.age);
+    formData.append("party", newCandidate.party);
+    formData.append("image", newCandidate.image);
 
-  try {
-    const res = await axios.post(
-      "http://localhost:8000/api/candidate/create",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    alert(res.data.message);
-    setNewCandidate({ name: "", age: "", party: "", image: "" });
-    setRefresh(!refresh);
-  } catch (error) {
-    alert(error.response?.data?.message || "Failed to add candidate");
-  }
-};
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/candidate/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(res.data.message);
+      setNewCandidate({ name: "", age: "", party: "", image: "" });
+      setRefresh(!refresh);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to add candidate");
+    }
+  };
 
 
 
@@ -100,10 +101,10 @@ const AdminDashboard = () => {
         `http://localhost:8000/api/candidate/delete/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert(res.data.message);
+      toast.success(res.data.message);
       setRefresh(!refresh);
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to delete candidate");
+      toast.error(error.response?.data?.message || "Failed to delete candidate");
     }
   };
 
@@ -133,38 +134,38 @@ const AdminDashboard = () => {
 
 
   const saveEdit = async () => {
-  if (!editingCandidate.name || !editingCandidate.age || !editingCandidate.party) {
-    return alert("Please fill all fields!");
-  }
+    if (!editingCandidate.name || !editingCandidate.age || !editingCandidate.party) {
+      return toast.info("Please fill all fields!");
+    }
 
-  const formData = new FormData();
-  formData.append("name", editingCandidate.name);
-  formData.append("age", editingCandidate.age);
-  formData.append("party", editingCandidate.party);
+    const formData = new FormData();
+    formData.append("name", editingCandidate.name);
+    formData.append("age", editingCandidate.age);
+    formData.append("party", editingCandidate.party);
 
-  // sirf tab append karo agar nayi image upload hui ho
-  if (editingCandidate.image instanceof File) {
-    formData.append("image", editingCandidate.image);
-  }
+    // sirf tab append karo agar nayi image upload hui ho
+    if (editingCandidate.image instanceof File) {
+      formData.append("image", editingCandidate.image);
+    }
 
-  try {
-    const res = await axios.put(
-      `http://localhost:8000/api/candidate/update/${editingCandidate._id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    alert(res.data.message);
-    setEditingCandidate(null);
-    setRefresh(!refresh);
-  } catch (error) {
-    alert(error.response?.data?.message || "Failed to update candidate");
-  }
-};
+    try {
+      const res = await axios.put(
+        `http://localhost:8000/api/candidate/update/${editingCandidate._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(res.data.message);
+      setEditingCandidate(null);
+      setRefresh(!refresh);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to update candidate");
+    }
+  };
 
 
   return (
@@ -176,17 +177,15 @@ const AdminDashboard = () => {
       {/* Tabs */}
       <div className="flex flex-wrap justify-center space-x-2 sm:space-x-6 mb-6">
         <button
-          className={`px-4 py-2 rounded-lg text-sm sm:text-base ${
-            activeTab === "users" ? "bg-blue-600" : "bg-blue-900"
-          }`}
+          className={`px-4 py-2 rounded-lg text-sm cursor-pointer sm:text-base ${activeTab === "users" ? "bg-blue-600" : "bg-blue-900"
+            }`}
           onClick={() => setActiveTab("users")}
         >
           Users
         </button>
         <button
-          className={`px-4 py-2 rounded-lg text-sm sm:text-base ${
-            activeTab === "candidates" ? "bg-blue-600" : "bg-blue-900"
-          }`}
+          className={`px-4 py-2 rounded-lg text-sm cursor-pointer sm:text-base ${activeTab === "candidates" ? "bg-blue-600" : "bg-blue-900"
+            }`}
           onClick={() => setActiveTab("candidates")}
         >
           Candidates
@@ -261,7 +260,7 @@ const AdminDashboard = () => {
 
           <button
             onClick={addCandidate}
-            className="w-full py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition font-semibold text-sm sm:text-base"
+            className="w-full py-2 bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer transition font-semibold text-sm sm:text-base"
           >
             ➕ Add Candidate
           </button>
@@ -288,13 +287,13 @@ const AdminDashboard = () => {
                     <td className="p-2 flex flex-wrap sm:flex-nowrap gap-2 justify-center">
                       <button
                         onClick={() => startEditing(c)}
-                        className="bg-yellow-400 px-3 py-1 rounded-lg text-black font-semibold text-sm"
+                        className="bg-yellow-400 px-3 py-1 rounded-lg cursor-pointer text-black font-semibold text-sm"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => deleteCandidate(c._id)}
-                        className="bg-red-600 px-3 py-1 rounded-lg font-semibold text-sm"
+                        className="bg-red-600 px-3 py-1 rounded-lg cursor-pointer font-semibold text-sm"
                       >
                         Delete
                       </button>

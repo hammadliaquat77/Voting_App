@@ -10,6 +10,11 @@ import AdminDashboard from './pages/Dashboard'
 
 import { Navigate } from "react-router-dom";
 
+// toast Alert
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 
 function App() {
@@ -21,14 +26,14 @@ function App() {
 
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Header/>} />
-      <Route path="/register" element={<Register/>} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/personalinfo" element={<PersionalInfo/>} />
-      <Route path="/votingpage" element={<VotingPage/>} />
-      <Route path="/vote" element={<MyVote/>} />
-      <Route
+      <Routes>
+        <Route path="/" element={<Header />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/personalinfo" element={<PersionalInfo />} />
+        <Route path="/votingpage" element={<VotingPage />} />
+        <Route path="/vote" element={<MyVote />} />
+        <Route
           path="/dashboard"
           element={
             role === "admin" ? (
@@ -38,7 +43,18 @@ function App() {
             )
           }
         />
-    </Routes>
+      </Routes>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}       // 3 sec baad close ho jaye
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
+
     </>
   )
 }
