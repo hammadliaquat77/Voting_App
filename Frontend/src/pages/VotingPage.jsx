@@ -32,6 +32,7 @@ const VotingPage = () => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
+    console.log("Response from backend:", response.data);
     
     const sortedData = [...response.data.candidate].sort(
       (a, b) => b.voteCount - a.voteCount

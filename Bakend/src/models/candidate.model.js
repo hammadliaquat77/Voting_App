@@ -14,6 +14,11 @@ const candidateSchema = new mongoose.Schema({
       required: true,
       unique: true
    },
+   image: {
+        type: String,
+      //   required: true,
+        unique: true
+   },
    vote: [
     {
         user: {

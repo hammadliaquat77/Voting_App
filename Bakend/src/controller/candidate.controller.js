@@ -6,6 +6,7 @@ const createCandidate = async (req, res) => {
     try {
 
         const { name, age, party } = req.body;
+        const imagePath = req.file ? req.file.path : null;
 
         const existingCandidate = await Candidate.findOne({ party });
 
@@ -16,7 +17,8 @@ const createCandidate = async (req, res) => {
         const candidate = await Candidate.create({
             name,
             age,
-            party
+            party,
+            image: imagePath
         });
 
         res.status(200).json({ candidate, message: "Candidate created successfully" });
@@ -150,3 +152,4 @@ export {
     voteCount,
     myVote
 }
+

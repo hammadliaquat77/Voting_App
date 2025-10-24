@@ -5,11 +5,13 @@ import cors from "cors";
 import connectDB from "./config/dbConnect.js";
 import userRouter from "./routes/auth.route.js";
 import CandidateRouter  from "./routes/candidate.route.js";
+import path from "path";
 
 
 
 const app = express();
 dotenv.config();
+
 
 const PORT = process.env.PORT
 app.use(express.json());
@@ -17,9 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+
 app.use("/api/user", userRouter);
 app.use("/api/candidate", CandidateRouter);
 
+app.use("/public", express.static(path.join(process.cwd(), "public")));
 
 
 

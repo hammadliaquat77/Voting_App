@@ -103,7 +103,7 @@ const Signup = async (req, res) => {
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            return res.status(400).json({ error: "User already exists" });
+            return res.status(400).json({ message: "User already exists" });
         }
 
         const newUser = await User.create({
@@ -124,7 +124,7 @@ const Signup = async (req, res) => {
 
         const token = await generateToken(newUser, newUser.role);
 
-        res.status(201).json({
+        res.status(200).json({
             newUser,
             token,
             message: "User created successfully",
