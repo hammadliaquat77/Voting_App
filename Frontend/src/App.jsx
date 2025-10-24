@@ -28,7 +28,6 @@ function App() {
       <Route path="/personalinfo" element={<PersionalInfo/>} />
       <Route path="/votingpage" element={<VotingPage/>} />
       <Route path="/vote" element={<MyVote/>} />
-      {/* <Route path="/dashboard"  element={role === "admin" ? (<AdminDashboard/>) : <Navigate to="/votingpage"/>   } /> */}
       <Route
           path="/dashboard"
           element={
