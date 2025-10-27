@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import letsVote from "../../public/letsvote.png";
+// import letsVote from "../../public/letsvote.png";
+import letsVote from "../../public/Login.jpeg";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -47,7 +48,8 @@ const Login = () => {
           <img
             src={letsVote}
             alt="Let's Vote"
-            className="w-[70%] sm:w-[60%] md:w-[80%] lg:w-[100%] object-contain"
+            // className="w-[70%] sm:w-[60%] md:w-[80%] lg:w-[100%] object-contain"
+            className="w-[70%] sm:w-[40%] md:w-[60%] lg:w-[60%] object-contain rounded-full"
           />
         </div>
 

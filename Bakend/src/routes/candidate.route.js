@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get("/", getAllCandidate);
 router.post("/create", upload.single("image") , authMiddleware, checkAdmin,  createCandidate);
-router.put("/update/:id", authMiddleware, checkAdmin, updateCandidate);
+router.put("/update/:id", authMiddleware, upload.single("image") , checkAdmin, updateCandidate);
 router.delete("/delete/:id", authMiddleware, checkAdmin, deleteCandidate);
 router.post("/vote/:id", authMiddleware,  userVote);
 router.get("/myvote", authMiddleware, myVote);
